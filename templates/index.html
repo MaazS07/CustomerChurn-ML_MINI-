@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maaz 099 - Customer Churn Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #1e1e1e, #2b2b2b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color:  rgba( 108,24,157, 0.5); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba( 108,24,157, 0.5); 
+            padding: 30px;
+            text-align: center;
+            max-width: 70vw;
+            width: 90%;
+            box-shadow: 5px 5px 5px solid black;
+            
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: bolder;
+
+        }
+        span
+        {
+            color:rgb(70, 10, 70);
+            font-weight: bolder;
+            background-color: white;
+            border-radius: 20px;
+            padding:  0.4vw 0.8vw;
+            border-color: black;
+            box-shadow: 2px 2px 2px solid grey;
+            margin-right: 0.8vw;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            text-align: left;
+            gap: 5vw;
+            margin-top: 4vh;
+        }
+        .input-group label {
+            flex: 1;
+            font-size: 16px;
+            font-weight: 500;
+            margin-right: 10px;
+            color: #ddd;
+        }
+        .input-group input, 
+        .input-group select {
+            flex: 1;
+            width: calc(50% - 5px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            outline: none;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+        .input-group input::placeholder, 
+        .input-group select::placeholder {
+            color: #aaa;
+        }
+        .input-group input:focus, 
+        .input-group select:focus {
+            border-color: #007bff;
+        }
+        .btn {
+            background-color: purple;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: rgb(163, 128, 163);
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: rgba(149, 38, 147, 0.5); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba( 111,201,196, 0.5); 
+            padding: 20px;
+            text-align: center;
+            max-width: 70vw;
+            width: 60%;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color:black;
+            font-size: 20px;
+           
+        }
+        .close-btn:hover {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            background-color: red;
+            color: white;
+           
+         
+        }
+        .output p {
+            font-size: 18px;
+            color: #ddd;
+            font-weight: bolder;
+        text-transform: capitalize;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1> <span>Maaz 099 </span> Customer Churn Prediction</h1>
+        </header>
+        <form id="churnForm">
+            <form id="churnForm">
+                <div class="input-group">
+                    <label for="creditScore"><i class="fas fa-fingerprint"></i> Credit Score:</label>
+                    <input type="number" id="creditScore" name="creditScore" placeholder="Enter credit score" required>
+                    <label for="age"><i class="fas fa-user"></i> Age:</label>
+                    <input type="number" id="age" name="age" placeholder="Enter age" required>
+                </div>
+                <div class="input-group">
+                    <label for="balance"><i class="fas fa-balance-scale"></i> Balance:</label>
+                    <input type="number" id="balance" name="balance" placeholder="Enter balance" required>
+                    <label for="numOfProducts"><i class="fas fa-boxes"></i> Number of Products:</label>
+                    <input type="number" id="numOfProducts" name="numOfProducts" placeholder="Enter number of products" required>
+                </div>
+                <div class="input-group">
+                    <label for="hasCrCard"><i class="far fa-credit-card"></i> Has Credit Card:</label>
+                    <select id="hasCrCard" name="hasCrCard" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                    <label for="isActiveMember"><i class="fas fa-user-check"></i> Is Active Member:</label>
+                    <select id="isActiveMember" name="isActiveMember" required>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="estimatedSalary"><i class="fas fa-money-bill-wave"></i> Estimated Salary:</label>
+                    <input type="number" id="estimatedSalary" name="estimatedSalary" placeholder="Enter estimated salary" required>
+                    <label for="geography"><i class="fas fa-globe"></i> Geography:</label>
+                    <select id="geography" name="geography" required>
+                        <option value="Germany">Germany</option>
+                        <option value="Spain">Spain</option>
+                        <option value="France">France</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="gender"><i class="fas fa-venus-mars"></i> Gender:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <label for="cardType"><i class="far fa-credit-card"></i> Card Type:</label>
+                    <select id="cardType" name="cardType" required>
+                        <option value="DIAMOND">DIAMOND</option>
+                        <option value="GOLD">GOLD</option>
+                        <option value="SILVER">SILVER</option>
+                        <option value="PLATINUM">PLATINUM</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Predict <i class="fas fa-rocket"></i></button>
+            </form>
+  
+    
+        </form>
+        <div class="output" id="outputArea"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="output" id="modalOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("churnForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/predict");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var outputText = "<p>" + xhr.responseText + "</p>";
+                    document.getElementById("modalOutput").innerHTML = outputText;
+                    openModal();
+                }
+            };
+            xhr.send(formData);
+        });
+
+        function openModal() {
+            document.getElementById("modalOverlay").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>
